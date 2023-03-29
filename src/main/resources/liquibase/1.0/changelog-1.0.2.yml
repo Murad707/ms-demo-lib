@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+     id: modify title column in books table
+     author: MuradMR
+     changes:
+       - modifyDataType:
+           columnName: title
+           newDataType: varchar(64)
+           tableName: books

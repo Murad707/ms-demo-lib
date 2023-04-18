@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class BookRequest {
     private String title;
     private String publisher;
-    private Long count;
+    private Integer count;
+    private Double rating;
 }

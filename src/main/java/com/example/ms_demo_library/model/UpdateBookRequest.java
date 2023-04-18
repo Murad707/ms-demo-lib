@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UpdateBookRequest {
     private String publisher;
-    private Long count;
+    private Integer count;
 
 }

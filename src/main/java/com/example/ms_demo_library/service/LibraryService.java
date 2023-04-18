@@ -1,11 +1,13 @@
 package com.example.ms_demo_library.service;
 
+import com.example.ms_demo_library.client.StoreClient;
 import com.example.ms_demo_library.dao.entity.BookEntity;
 import com.example.ms_demo_library.dao.repository.LibraryRepository;
 import com.example.ms_demo_library.mapper.BookMapper;
 import com.example.ms_demo_library.model.BookRequest;
 import com.example.ms_demo_library.model.BookResponse;
 import com.example.ms_demo_library.model.UpdateBookRequest;
+import com.example.ms_demo_library.model.UpdateOneField;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -13,26 +15,39 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.example.ms_demo_library.mapper.BookMapper.mapToEntity;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class LibraryService {
     private final LibraryRepository repository;
+    private final StoreClient client;
 
     public void createBook(BookRequest request){
         log.info("ActionLog.createBook.start");
 
-        repository.save(BookMapper.mapToEntity(request));
+        client.getStocks(request.getRating())
+     .stream()
+     .filter(stock -> stock.getRating() > request.getRating())
+     .findFirst()
+     .orElseThrow(()-> new RuntimeException());
+
+        repository.save(mapToEntity(request));
             log.info("ActionLog.createBook.success");
     }
     public void deleteBook(Long id){
         log.info("ActionLog.deleteBook.start :id {}",id);
+
         repository.deleteById(id);
+
         log.info("ActionLog.deleteBook.success :id {}",id);
     }
     public void deleteBooks(){
         log.info("ActionLog.deleteAll.start" );
+
         repository.deleteAll();
+
         log.info("ActionLog.deleteAll.success" );
     }
 
@@ -44,7 +59,7 @@ public class LibraryService {
         return BookMapper.mapResponseToEntity(book);
 
     }
-    public List<BookResponse>getAllBooks(){
+    public List<BookResponse> getAllBooks(){
         log.info("ActionLog.getBooks.start" );
 
      var books = repository.findAll().stream()
@@ -64,6 +79,16 @@ BookMapper.updateBook(updateBookRequest,book);
            //book.setCount(updateBookRequest.getCount());
            repository.save(book);
            log.info("ActionLog.updateBook.success id: {}",id);
+    }
+
+    public void updateCount(Long id, UpdateOneField oneField){
+       var count =  fetchBookIfExist(id);
+       /*repository.findById(id).orElseThrow(() ->{
+            log.error("ActionLog.updateCount.error id:{}",id);
+            return new RuntimeException();
+        });
+        */
+        BookMapper.updateCount(count,oneField);
     }
 
     private BookEntity fetchBookIfExist(Long id){

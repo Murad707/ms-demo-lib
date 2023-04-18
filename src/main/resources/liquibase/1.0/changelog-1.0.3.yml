@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: dropColumn-page_size
+      author: MuradMR
+      changes:
+        - dropColumn:
+            columnName: page_size
+            columns:
+              - column:
+                  name: page_size
+            tableName: books

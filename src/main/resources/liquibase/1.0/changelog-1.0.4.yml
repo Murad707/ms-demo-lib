@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      id: modify count column in books table
+      author: MuradMR
+      changes:
+        - modifyDataType:
+            columnName: count
+            newDataType: Integer
+            tableName: books

@@ -3,6 +3,7 @@ package com.example.ms_demo_library.controller;
 import com.example.ms_demo_library.model.BookRequest;
 import com.example.ms_demo_library.model.BookResponse;
 import com.example.ms_demo_library.model.UpdateBookRequest;
+import com.example.ms_demo_library.model.UpdateOneField;
 import com.example.ms_demo_library.service.LibraryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ public class LibraryController {
     public void saveBook(@RequestBody BookRequest request){
         service.createBook(request);
     }
+
     @DeleteMapping("/{id}")
     public void deleteBook(@PathVariable Long id){
         service.deleteBook(id);
@@ -41,5 +43,10 @@ public class LibraryController {
     @PutMapping("/{id}")
     public void updateBook(@PathVariable Long id, @RequestBody UpdateBookRequest request){
         service.updateBook(id,request);
+
+    }
+    @PatchMapping("/{id}")
+    public void updateCount(@PathVariable Long id, @RequestBody UpdateOneField oneField){
+        service.updateCount(id,oneField);
     }
 }

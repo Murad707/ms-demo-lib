@@ -15,3 +15,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQL10Dialect
   liquibase:
     change-log: classpath:liquibase/changelog-master.yml
+
+client:
+  ms-library-store:
+    endpoint: http://localhost:8800

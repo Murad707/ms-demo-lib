@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BookResponse {
-    private String title;
+public class UpdateOneField {
+
     private String publisher;
-    private  Integer count;
 }

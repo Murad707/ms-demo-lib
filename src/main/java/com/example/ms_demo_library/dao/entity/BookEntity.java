@@ -21,6 +21,6 @@ public class BookEntity {
     @Column(name = "publisher")
     private String publisher;
     @Column(name = "count")
-    private Long count;
+    private Integer count;
 
 }
